@@ -1,3 +1,30 @@
+# Course Management API
+
+A simple REST API built with NestJS for managing course operations.
+
+## API Endpoints
+
+| Method | Route | Description |
+|---|---|---|
+| GET | `/course` | Get all courses |
+| GET | `/course/:id` | Get course by ID |
+| POST | `/course` | Create new course |
+| PUT | `/course/:id` | Update full course |
+| PATCH | `/course/:id` | Update partial course |
+| DELETE | `/course/:id` | Delete course |
+
+## Architecture
+
+The project follows the NestJS architecture:
+
+- **Module** → Organizes course-related files
+- **Controller** → Handles HTTP requests and calls the Service
+- **Service** → Handles the course operations and returns the responses
+
+All required endpoints have been tested successfully using Postman.
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
