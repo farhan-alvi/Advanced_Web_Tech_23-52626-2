@@ -3,6 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto.js';
 import { UpdateCourseDto } from './dto/update-course.dto.js';
 
+type UploadedFile = {
+  filename: string;
+};
+
 @Injectable()
 export class CourseService {
   getAllCourses() {
@@ -46,6 +50,15 @@ export class CourseService {
     return {
       message: 'Course deleted successfully',
       id,
+    };
+  }
+
+  uploadCourseMaterial(id: string, file: UploadedFile) {
+    return {
+      message: 'Material uploaded successfully',
+      courseId: id,
+      filename: file.filename,
+      path: `uploads/${file.filename}`,
     };
   }
 }
