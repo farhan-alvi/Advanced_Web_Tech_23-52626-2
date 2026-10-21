@@ -1,3 +1,139 @@
+# Lab Task 02: Course Management REST API
+
+## 1. Project Overview
+
+This project is a Course Management REST API built using **NestJS** and **TypeScript**. It demonstrates CRUD operations, DTO-based input validation, validation pipes, and file uploads.
+
+## 2. Technologies Used
+
+- **Framework:** NestJS
+- **Language:** TypeScript
+- **Runtime and Package Manager:** Node.js and npm
+- **Validation:** `class-validator`, `class-transformer`
+- **File Upload:** Multer
+- **API Testing:** Postman
+
+## 3. Key Features
+
+- Course CRUD operations using `GET`, `POST`, `PUT`, `PATCH`, and `DELETE`.
+- DTO validation using `class-validator` and `class-transformer`.
+- Global `ValidationPipe` configured with `whitelist`, `forbidNonWhitelisted`, and `transform`.
+- File uploads supporting `.jpg`, `.jpeg`, `.png`, and `.pdf` files.
+- Maximum file size limit of **2 MB**.
+- Postman testing for API requests, input validation, and file upload restrictions.
+
+## 4. Installation and Setup
+
+### Step 1: Install Dependencies
+
+Run the following command in the project directory:
+
+\```bash
+npm install
+\```
+
+### Step 2: Start the Development Server
+
+Run the following command to start the NestJS development server:
+
+\```bash
+npm run start:dev
+\```
+
+### Step 3: API Base URL
+
+Once the server is running, the API will be available at:
+
+\```text
+http://localhost:3000
+\```
+
+## 5. API Endpoints
+
+| HTTP Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/course` | Retrieve all courses |
+| `GET` | `/course/:id` | Retrieve a course by ID |
+| `POST` | `/course` | Create a new course |
+| `PUT` | `/course/:id` | Update an entire course |
+| `PATCH` | `/course/:id` | Partially update a course |
+| `DELETE` | `/course/:id` | Delete a course |
+| `POST` | `/course/:id/upload` | Upload course material |
+
+## 6. Input Validation
+
+The project uses Data Transfer Objects (DTOs) and a global `ValidationPipe` to validate incoming requests.
+
+### Validation Rules
+
+- **Course Name:** Required.
+- **Course Code:** Required.
+- **Instructor:** Required.
+- **Credits:** Must be a number between `1` and `6`.
+- **Description:** Optional.
+- **Unknown Properties:** Rejected.
+
+### Global ValidationPipe Configuration
+
+The global `ValidationPipe` uses the following options:
+
+- **`whitelist: true`** — Removes properties that do not have validation decorators.
+- **`forbidNonWhitelisted: true`** — Rejects requests containing unknown properties.
+- **`transform: true`** — Enables automatic transformation of incoming payloads into the expected DTO types.
+
+## 7. File Upload
+
+Course materials can be uploaded using the following endpoint:
+
+\```http
+POST /course/:id/upload
+\```
+
+### How to Upload a File Using Postman
+
+1. Select the `POST` method and enter the upload endpoint.
+2. Open **Body → form-data**.
+3. Add a key named `file`.
+4. Change the key type from **Text** to **File**.
+5. Select the file you want to upload.
+6. Click **Send** to submit the request.
+
+### File Upload Restrictions
+
+- **Allowed Extensions:** `.jpg`, `.jpeg`, `.png`, `.pdf`
+- **Maximum File Size:** 2 MB
+- **Upload Directory:** `src/uploads`
+- **Form-Data Key:** `file`
+
+Files that do not meet the specified restrictions are rejected by the API.
+
+## 8. Testing
+
+The API was tested using Postman to verify CRUD operations, input validation, and file upload restrictions.
+
+### Test Cases
+
+- Course CRUD endpoint requests.
+- Valid course creation and updates.
+- Missing required fields.
+- Invalid credit values.
+- Unknown properties in request bodies.
+- Valid file uploads.
+- Invalid file extensions.
+- Upload requests without a file.
+- Oversized file uploads.
+
+## 9. Notes
+
+- This project uses example responses and does not persist course data in a database.
+- The project demonstrates REST API development, CRUD operations, DTO-based validation, global validation pipes, and file upload handling using NestJS and TypeScript.
+
+---
+
+**Lab Task 02 completed:** Course Management REST API with CRUD operations, input validation, and file upload functionality.
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
