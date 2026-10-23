@@ -1,3 +1,82 @@
+# University System API — NestJS Dependency Injection
+
+## Project Overview
+This project demonstrates Dependency Injection (DI) in NestJS through three modules: Course, Enrollment, and Notification. It covers intra-module dependency injection, inter-module dependency injection, and circular dependency resolution using `forwardRef()`.
+
+The application uses in-memory data and does not require a database.
+
+## Technologies Used
+- NestJS
+- TypeScript
+- Node.js
+- Postman for API testing
+
+## Project Structure
+```text
+src/
+├── course/
+│   ├── course.controller.ts
+│   ├── course.service.ts
+│   └── course.module.ts
+├── enrollment/
+│   ├── enrollment.controller.ts
+│   ├── enrollment.service.ts
+│   └── enrollment.module.ts
+├── notification/
+│   ├── notification.controller.ts
+│   ├── notification.service.ts
+│   └── notification.module.ts
+└── app.module.ts
+```
+
+## Dependency Injection Implementation
+
+### 1. Intra-Module Dependency Injection
+The Course module demonstrates dependency injection within the same module.
+- CourseService manages course data and operations.
+- CourseController injects CourseService through its constructor.
+- CourseModule registers the controller and service.
+
+This allows the controller to use the service without creating a service instance manually.
+
+### 2. Inter-Module Dependency Injection
+The Enrollment module uses CourseService from the Course module.
+- CourseModule exports CourseService.
+- EnrollmentModule imports CourseModule.
+- EnrollmentService injects CourseService through its constructor.
+- Enrollment operations retrieve course information and validate whether a course exists.
+
+This demonstrates how a service can be shared between different NestJS modules.
+
+### 3. Circular Dependency Injection
+The Enrollment and Notification modules demonstrate a circular dependency.
+- EnrollmentService uses NotificationService to send a notification after a successful enrollment.
+- NotificationService uses EnrollmentService to check enrollment information.
+- Both modules use `forwardRef()` in their module imports.
+- Both services use `@Inject(forwardRef(() => ...))` for circular service injection.
+- NotificationModule exports NotificationService, and EnrollmentModule exports EnrollmentService.
+
+The `forwardRef()` mechanism allows NestJS to resolve the circular dependency between the two modules and services.
+
+## API Endpoints
+**Base URL:** `http://localhost:3000`
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/course` | Retrieve all courses |
+| GET | `/course/:id` | Retrieve a course by ID |
+| POST | `/course` | Create a course |
+| GET | `/enrollment` | Retrieve all enrollments with course details |
+| POST | `/enrollment` | Create an enrollment and send a notification |
+| POST | `/notification/send` | Send a notification |
+| POST | `/notification/check` | Check an enrollment by ID |
+
+
+## Testing
+All seven API endpoints were tested successfully using Postman. TypeScript compilation was also verified successfully.
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
