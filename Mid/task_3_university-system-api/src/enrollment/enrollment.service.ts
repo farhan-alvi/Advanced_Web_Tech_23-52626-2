@@ -1,9 +1,23 @@
-import { Injectable } from '@nestjs/common';
+
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { CourseService } from '../course/course.service.js';
+import { NotificationService } from '../notification/notification.service.js';
 
 @Injectable()
 export class EnrollmentService {
-  constructor(private readonly courseService: CourseService) {}
+  private readonly notificationService: NotificationService;
+
+  constructor(
+    private readonly courseService: CourseService,
+    @Inject(forwardRef(() => NotificationService))
+    notificationService: any,
+  ) {
+    this.notificationService = notificationService;
+  }
 
   private enrollments = [
     { id: 1, studentName: 'Rahim', courseId: 1 },
@@ -30,10 +44,16 @@ export class EnrollmentService {
 
     this.enrollments.push(enrollment);
 
+    const notification = this.notificationService.sendNotification(
+      enrollment.studentName,
+      course.name,
+    );
+
     return {
       message: 'Enrollment created successfully',
       studentName: enrollment.studentName,
       course,
+      notification,
     };
   }
 }
