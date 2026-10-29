@@ -1,6 +1,5 @@
 
 import {
-    BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Products } from './entities/products.entity.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
+import { UpdateProductDto } from './dto/update-product.dto.js';
+import { PartialUpdateProductDto } from './dto/partial-update-product.dto.js';
 
 @Injectable()
 export class ProductsService {
@@ -35,5 +36,36 @@ export class ProductsService {
     }
 
     return product;
+  }
+
+  async update(
+    id: number,
+    updateProductDto: PartialUpdateProductDto,
+  ): Promise<Products> {
+    const product = await this.findOne(id);
+    Object.assign(product, updateProductDto);
+    return this.productsRepository.save(product);
+  }
+
+  async replace(
+    id: number,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Products> {
+    const product = await this.findOne(id);
+    Object.assign(product, updateProductDto);
+    return this.productsRepository.save(product);
+  }
+
+  async remove(id: number): Promise<{ message: string }> {
+    const product = await this.findOne(id);
+    await this.productsRepository.remove(product);
+
+    return { message: `Product with ID ${id} deleted successfully` };
+  }
+
+  async toggleActive(id: number): Promise<Products> {
+    const product = await this.findOne(id);
+    product.isActive = !product.isActive;
+    return this.productsRepository.save(product);
   }
 }
