@@ -1,3 +1,97 @@
+
+# Product Inventory API
+
+## Project Overview
+
+The Product Inventory API is a REST API built with NestJS and PostgreSQL. It helps manage products in an inventory system.
+
+Users can create, view, update, replace, delete, search, and filter products. They can also activate or deactivate a product.
+
+## Technologies Used
+
+- NestJS
+- TypeScript
+- PostgreSQL
+- TypeORM
+- class-validator
+- class-transformer
+- Vitest
+- Node.js
+- npm
+
+## Features
+
+- Create new products
+- View all products
+- View a single product by ID
+- Update selected product fields
+- Replace product information
+- Delete products
+- Activate or deactivate products
+- Search products by name
+- Filter products by category
+- Validate incoming request data
+- Store product information in PostgreSQL
+
+
+
+## API Endpoints
+
+The base URL is:
+
+`http://localhost:3000`
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/products` | Create a product |
+| GET | `/products` | Get all products |
+| GET | `/products/:id` | Get a product by ID |
+| PATCH | `/products/:id` | Update selected fields |
+| PUT | `/products/:id` | Replace product information |
+| DELETE | `/products/:id` | Delete a product |
+| PATCH | `/products/:id/toggle` | Activate or deactivate a product |
+| GET | `/products/category/:cat` | Get products by category |
+| GET | `/products/search?keyword=phone` | Search products by name |
+
+
+## Product Fields
+
+| Field | Description |
+|---|---|
+| `id` | Automatically generated product ID |
+| `name` | Product name |
+| `description` | Optional product description |
+| `price` | Product price |
+| `stock` | Available stock quantity |
+| `category` | Product category |
+| `isActive` | Indicates whether the product is active |
+| `createdAt` | Date and time the product was created |
+| `updatedAt` | Date and time the product was last updated |
+
+
+## Validation
+
+The API validates incoming request data.
+
+- Product names must be strings between 2 and 255 characters.
+- Price must be a number greater than zero, with up to two decimal places.
+- Stock must be a non-negative number.
+- Category must be a non-empty string with a maximum length of 100 characters.
+- Description is optional.
+- `isActive` is optional and must be a boolean when provided.
+- Unexpected fields are rejected.
+- Invalid product IDs return a `400 Bad Request` response.
+- Requests for products that do not exist return a `404 Not Found` response.
+
+
+## Database
+
+The application uses PostgreSQL to store product information and TypeORM to communicate with the database.
+
+The application is configured to synchronize entity changes with the database during development.
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
