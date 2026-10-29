@@ -68,4 +68,23 @@ export class ProductsService {
     product.isActive = !product.isActive;
     return this.productsRepository.save(product);
   }
+
+  
+async findByCategory(category: string): Promise<Products[]> {
+  return this.productsRepository.find({
+    where: { category },
+    order: { createdAt: 'DESC' },
+  });
+}
+
+async search(keyword: string): Promise<Products[]> {
+  return this.productsRepository
+    .createQueryBuilder('product')
+    .where('product.name ILIKE :keyword', {
+      keyword: `%${keyword}%`,
+    })
+    .orderBy('product.createdAt', 'DESC')
+    .getMany();
+}
+
 }

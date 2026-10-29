@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+    Query,
   Put,
 } from '@nestjs/common';
 import { ProductsService } from './products.service.js';
@@ -29,6 +30,18 @@ export class ProductsController {
   findAll(): Promise<Products[]> {
     return this.productsService.findAll();
   }
+
+  
+@Get('search')
+search(@Query('keyword') keyword: string): Promise<Products[]> {
+  return this.productsService.search(keyword);
+}
+
+@Get('category/:cat')
+findByCategory(@Param('cat') category: string): Promise<Products[]> {
+  return this.productsService.findByCategory(category);
+}
+
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Products> {
